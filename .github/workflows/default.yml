@@ -9,5 +9,5 @@ jobs:
       - uses: actions/checkout@v4
       - run: shellcheck *.bash
       - run: sudo apt-get update
-      - run: sudo apt-get install -y bats bats-assert bats-support
+      - run: sudo apt-get install -y bats
       - run: bats test/changelog.bats
