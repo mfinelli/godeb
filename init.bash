@@ -48,7 +48,7 @@ fi
 mkdir -p debian/source
 [[ ! -e debian/source/format ]] && echo "3.0 (native)" > debian/source/format
 
-[[ ! -e debian/control ]] && cat <<EOF > debian/control
+[[ ! -e debian/control ]] && cat << EOF > debian/control
 Source: $project
 Section: misc
 Priority: optional
@@ -64,7 +64,7 @@ Depends: \${shlibs:Depends}, \${misc:Depends}
 Description: $desc
 EOF
 
-[[ ! -e debian/copyright ]] && cat <<EOF > debian/copyright
+[[ ! -e debian/copyright ]] && cat << EOF > debian/copyright
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: $project
 Upstream-Contact: $user <$email>
@@ -78,10 +78,10 @@ License: TODO: SPDX-IDENTIFIER
 $(sed 's/^$/./' LICENSE | sed 's/^/ /')
 EOF
 
-[[ ! -e debian/$project.install ]] && \
+[[ ! -e debian/$project.install ]] &&
   echo "README.md /usr/share/doc/$project" > "debian/$project.install"
 
-[[ ! -e debian/rules ]] && cat <<'EOF' > debian/rules
+[[ ! -e debian/rules ]] && cat << 'EOF' > debian/rules
 #!/usr/bin/make -f
 
 %:
