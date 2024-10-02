@@ -35,3 +35,13 @@ we have a script that can generate a fake, real changelog entry.
 ```shell
 ./changelog.bash noble # or whatever debian/ubuntu distribution want
 ```
+
+### init
+
+As an alternative to `debmake` this script will write out the default, most
+necessary information for the debian package trying to set some sane defaults
+where possible.
+
+```shell
+./init.bash
+```
