@@ -12,7 +12,8 @@ teardown() {
 
 @test "outputs the expected changelog content" {
   date() {
-    command TZ=America/Los_Angeles date -d "2001-02-03 04:05:06"
+    # command TZ=America/Los_Angeles date -d "2001-02-03 04:05:06"
+    echo "Sat, 03 Feb 2001 04:05:06 -0800"
   }
   export -f date
 
