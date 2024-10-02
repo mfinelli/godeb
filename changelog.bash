@@ -78,6 +78,7 @@ fi
 {
   echo -n "$body"
   echo
+  echo
 } >> debian/changelog
 
 cdate="$($date -R)"
