@@ -89,3 +89,60 @@ where possible.
 ```shell
 ./init.bash
 ```
+
+## github actions
+
+You can use this repository's built-in Github action to simplify things.
+Here's an example workflow:
+
+```yaml
+name: Package
+on:
+  push:
+    branches: [master]
+    tags: [v*]
+  pull_request:
+    branches: [master]
+
+jobs:
+  default:
+   runs-on: ubuntu-24.04
+   timeout-minutes: 30
+   steps:
+     # checkout the code and install main dependencies
+     - uses: actions/checkout@v4
+       with:
+         submodules: true
+     - uses: actions/setup-node@v4
+       with:
+         node-version: lts/*
+     - uses: actions/setup-go@v5
+       with:
+         go-version: stable
+
+      # install any other software that your build process may require:
+      - uses: mfinelli/setup-imagemagick@v5
+
+      # install necessary tools
+      - run: sudo apt-get update
+      - run: sudo apt-get upgrade -y
+      - run: sudo apt-get install -y dh-make devscripts
+
+      # install cross-compilation libraries (-buildmode=pie uses cgo)
+      # https://dh1tw.de/2019/12/cross-compiling-golang-cgo-projects/
+      - run: sudo apt-get install -y gcc-aarch64-linux-gnu libc6-dev-arm64-cross
+
+      # do the build
+      - uses: mfinelli/godeb@v1
+        with:
+          cc: aarch64-linux-gnu-gcc
+          goarch: arm64
+          update-changelog: true # if you do this then set localmods to include
+                                 # debian/changelog in your godeb.yaml
+
+      # upload the resulting package as a workflow artifact
+      - uses: actions/upload-artifact@v4
+        with:
+          name: myproj
+          path: project_*.deb
+```
