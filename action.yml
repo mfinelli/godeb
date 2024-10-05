@@ -1,0 +1,46 @@
+---
+name: godeb
+description: simple debian packaging for go service
+author: Mario Finelli
+inputs:
+  cc:
+    default: ""
+    description: Override the "CC" environment variable during build
+    required: false
+  goarch:
+    default: ""
+    description: Override the "GOARCH" environment variable during build
+    required: false
+  signing-key:
+    default: ""
+    description: GPG key ID to use for package signing
+    required: false
+  update-changelog:
+    default: false
+    description: Run the changelog.bash script to update the debian/changelog
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+      shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+
+    - run: >-
+        changelog.bash "$(grep UBUNTU_CODENAME /etc/os-release |
+        awk -F= '{print $2}')"
+      if: ${{ inputs.update-changelog }}
+      shell: bash
+
+    - run: build.bash
+      shell: bash
+      env:
+        CC: ${{ inputs.cc }}
+        GOARCH: ${{ inputs.goarch }}
+
+    - run: >-
+        debsigs --sign=origin -k ${{ inputs.signing-key }}
+        $(yq e '.project' < godeb.yaml)_*.deb
+      if: ${{ inputs.signing-key != "" }}
+      shell: bash
