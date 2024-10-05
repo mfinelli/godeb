@@ -132,11 +132,19 @@ jobs:
       # https://dh1tw.de/2019/12/cross-compiling-golang-cgo-projects/
       - run: sudo apt-get install -y gcc-aarch64-linux-gnu libc6-dev-arm64-cross
 
+      # if you want to sign the resulting.deb
+      - uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+      - run: sudo apt-get install -y debsigs
+
       # do the build
       - uses: mfinelli/godeb@v1
         with:
           cc: aarch64-linux-gnu-gcc
           goarch: arm64
+          signing-key: ABCD1234
           update-changelog: true # if you do this then set localmods to include
                                  # debian/changelog in your godeb.yaml
 
