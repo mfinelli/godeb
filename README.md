@@ -24,6 +24,50 @@ project: myproj
 
 # REQUIRED: command to run to get the current project version
 version: jq -r .version package.json
+
+# OPTIONAL: locally modified files/directories to bring into the final build
+localmods: []
+  # - Makefile
+  # - debian
+
+# OPTIONAL: commands to run to fetch dependencies
+dependencies: []
+  # - npm ci
+  # - go mod vendor
+
+# OPTIONAL: list of dependency directories to include when building with the
+#           --source option
+dependencydirs: []
+  # - node_modules
+  # - vendor
+
+# OPTIONAL: any code generation steps that need to be run
+codegen: []
+  # - sqlc generate
+
+# OPTIONAL: steps to run to build the project and any accompanying files
+build: []
+  # - CC="" GOARCH="" make all
+  # - make completions
+  # - rm project
+  # - make all # build again for the desired arch
+
+# OPTIONAL: files to copy into the packaging directory after the build
+copyfiles: []
+  # - project
+  # - _project
+  # - project.bash
+  # - project.fish
+
+# OPTIONAL: after the build install files in the specified directories to the
+#           specified paths; note you should still manually specify individual,
+#           known files in debian/$PROJECT.install
+buildinstalldirs: []
+  # - build:/usr/share/$PROJECT
+
+# OPTIONAL: if specified the directories that we should use to find manpages
+manpages: []
+  # - man
 ```
 
 ### changelog
