@@ -99,8 +99,8 @@ function create_build_install() {
   if [[ $d == "$s" ]]; then
     p=""
   else
-    p="$(sed "s|^$s/||" <<< "$d")"
-    # p="${d//build\//}"
+    # p="$(sed "s|^$s/||" <<< "$d")"
+    p="${d//${s}\//}"
   fi
 
   # sed "s|\$| /usr/share/$PROJECT/$p|" <<< "$f" \
@@ -150,8 +150,7 @@ function do_find_for_build_install() {
 
 export -f do_find_for_build_install
 
-# TODO
-# find build -type f -exec bash -c "create_build_install \"\$0\" \"$bdir\"" {} \;
+# shellcheck disable=SC2016
 yq e '.buildinstalldirs[]' godeb.yaml | \
   awk -F: '{printf("%s%c%s%c", $1, 0, $2, 0)}' | \
   xargs -0 -n 2 bash -c 'do_find_for_build_install "$1" "$2"' argv0
