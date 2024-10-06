@@ -136,6 +136,9 @@ yaml2cmd build
 
 # copy the resulting files into the packing directory
 yq e '.copyfiles[]' < godeb.yaml | xargs -t -I'{}' cp -r '{}' "$bdir"
+yq e '.buildinstalldirs[]' godeb.yaml | awk -F: '{printf("%s%c", $1, 0)}' | \
+  xargs -0 -t -I'{}' cp -r '{}' "$bdir"
+yq e '.manpages[]' < godeb.yaml | xargs -t -I'{}' cp -r '{}' "$bdir"
 
 cd "$bdir"
 
