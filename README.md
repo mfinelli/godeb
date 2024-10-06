@@ -168,3 +168,10 @@ sudo docker built -t godeb .
 cd ../project
 sudo docker run --rm -it -v "$(pwd):/build" godeb build.bash
 ```
+
+## package signing
+
+If you setup package signing you'll want to follow the guide here:
+https://blog.packagecloud.io/how-to-gpg-sign-and-verify-deb-packages-and-apt-repositories/
+(under the section "Verifying GPG signatures of .deb package files") to setup
+your keyrings and policy files.
