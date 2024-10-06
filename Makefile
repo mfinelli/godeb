@@ -10,12 +10,12 @@ test:
 
 install:
 	$(foreach bin,$(BINS), install -Dm0755 $(bin) \
-		"$(DESTDIR)$(PREFIX)/bin/$(bin);")
+		"$(DESTDIR)$(PREFIX)/bin/$(bin)";)
 	install -Dm0644 README.md \
 		"$(DESTDIR)$(PREFIX)/share/doc/godeb/README.md"
 
 uninstall:
-	$(foreach bin,$(BINS), rm -rf "$(DESTDIR)$(PREFIX)/bin/$(bin);")
+	$(foreach bin,$(BINS), rm -rf "$(DESTDIR)$(PREFIX)/bin/$(bin)";)
 	rm -rf "$(DESTDIR)$(PREFIX)/share/doc/godeb"
 
 .PHONY: all install test uninstall
