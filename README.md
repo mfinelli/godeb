@@ -155,3 +155,16 @@ jobs:
           name: myproj
           path: project_*.deb
 ```
+
+## docker
+
+For local testing there is a sample docker file in this repository. You can
+build the image locally and then run it passing your local working directory
+as a volume and then running `build.bash`.
+
+```shell
+cd godeb
+sudo docker built -t godeb .
+cd ../project
+sudo docker run --rm -it -v "$(pwd):/build" godeb build.bash
+```
