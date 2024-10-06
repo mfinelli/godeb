@@ -1,6 +1,6 @@
 FROM mfinelli/imagemagick:latest AS imagemagick
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 WORKDIR /build
 
 RUN \
@@ -20,13 +20,13 @@ RUN \
 RUN \
   apt-get install -y \
   libjbig0 \
-  libtiff5 \
+  libtiff6 \
   libraqm0 \
   libdjvulibre21 \
   libfontconfig1 \
   libwebpmux3 \
   libwebpdemux2 \
-  libopenexr25 \
+  libopenexr-3-1-30 \
   libgomp1
 
 COPY .go-version /build
