@@ -11,6 +11,10 @@ inputs:
     default: ""
     description: Override the "GOARCH" environment variable during build
     required: false
+  include-source:
+    default: false
+    description: Pass "--source" to build.bash for a source-included build
+    required: false
   signing-key:
     default: ""
     description: GPG key ID to use for package signing
@@ -34,6 +38,14 @@ runs:
       shell: bash
 
     - run: build.bash
+      if: ${{ ! inputs.include-source }}
+      shell: bash
+      env:
+        CC: ${{ inputs.cc }}
+        GOARCH: ${{ inputs.goarch }}
+
+    - run: build.bash --source
+      if: ${{ inputs.include-source }}
       shell: bash
       env:
         CC: ${{ inputs.cc }}
