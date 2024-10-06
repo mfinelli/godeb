@@ -34,18 +34,18 @@ runs:
     - run: >-
         ${{ github.action_path }}/changelog.bash
         "$(grep UBUNTU_CODENAME /etc/os-release | awk -F= '{print $2}')"
-      if: inputs.update-changelog
+      if: inputs.update-changelog == true
       shell: bash
 
     - run: ${{ github.action_path }}/build.bash
-      if: !inputs.include-source
+      if: inputs.include-source == false
       shell: bash
       env:
         CC: ${{ inputs.cc }}
         GOARCH: ${{ inputs.goarch }}
 
     - run: ${{ github.action_path }}/build.bash --source
-      if: inputs.include-source
+      if: inputs.include-source == true
       shell: bash
       env:
         CC: ${{ inputs.cc }}
