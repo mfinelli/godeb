@@ -26,25 +26,25 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
-      shell: bash
-      env:
-        GITHUB_ACTION_PATH: ${{ github.action_path }}
+    # - run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+    #   shell: bash
+    #   env:
+    #     GITHUB_ACTION_PATH: ${{ github.action_path }}
 
     - run: >-
-        changelog.bash "$(grep UBUNTU_CODENAME /etc/os-release |
-        awk -F= '{print $2}')"
+        ${{ github.action_path }}/changelog.bash
+        "$(grep UBUNTU_CODENAME /etc/os-release | awk -F= '{print $2}')"
       if: ${{ inputs.update-changelog }}
       shell: bash
 
-    - run: build.bash
+    - run: ${{ github.action_path }}/build.bash
       if: ${{ ! inputs.include-source }}
       shell: bash
       env:
         CC: ${{ inputs.cc }}
         GOARCH: ${{ inputs.goarch }}
 
-    - run: build.bash --source
+    - run: ${{ github.action_path }}/build.bash --source
       if: ${{ inputs.include-source }}
       shell: bash
       env:
