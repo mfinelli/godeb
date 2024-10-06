@@ -54,5 +54,5 @@ runs:
     - run: >-
         debsigs --sign=origin -k ${{ inputs.signing-key }}
         $(yq e '.project' < godeb.yaml)_*.deb
-      if: ${{ inputs.signing-key != "" }}
+      if: inputs.signing-key != ''
       shell: bash
