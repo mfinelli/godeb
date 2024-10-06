@@ -45,7 +45,7 @@ yq e '.localmods[]' < godeb.yaml | xargs -t -I'{}' cp -r '{}' "$bdir"
 
 function yaml2cmd() {
   local key="$1"
-  yq e ".${key}[]" < godeb.yaml | xargs -L1 -I'{}' bash -c "set -x; {}"
+  yq e ".${key}[]" < godeb.yaml | xargs -I'{}' bash -c "set -x; {}"
 }
 
 # do a fresh download of the dependencies
