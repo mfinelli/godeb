@@ -29,6 +29,7 @@ version: jq -r .version package.json
 localmods: []
   # - Makefile
   # - debian
+  # - godeb.yaml
 
 # OPTIONAL: commands to run to fetch dependencies
 dependencies: []
