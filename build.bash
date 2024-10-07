@@ -27,7 +27,7 @@ for setting in project version; do
   fi
 done
 
-PROJECT="$(yq e .project godeb.yaml)"
+export PROJECT="$(yq e .project godeb.yaml)"
 
 sdir="$(pwd)"
 tdir="$(mktemp -d)"
@@ -147,6 +147,7 @@ yq e '.manpages[]' < godeb.yaml | \
   sort -nr > "debian/$PROJECT.manpages"
 
 function do_find_for_build_install() {
+  local bdir="$3"
   find "$1" -type f -exec bash -c \
     "create_build_install \"\$0\" \"$2\" \"$1\" \"$bdir\"" {} \;
 }
@@ -156,7 +157,8 @@ export -f do_find_for_build_install
 # shellcheck disable=SC2016
 yq e '.buildinstalldirs[]' godeb.yaml | \
   awk -F: '{printf("%s%c%s%c", $1, 0, $2, 0)}' | \
-  xargs -0 -n 2 bash -c 'do_find_for_build_install "$1" "$2"' argv0
+  xargs -0 -n 2 bash -c \
+    "do_find_for_build_install \"\$1\" \"\$2\" \"$bdir\"" argv0
 
 # fresh download of dependencies for source package (they should be cached)
 if [[ $1 == --source ]]; then
@@ -174,7 +176,7 @@ debuild --no-tgz-check --no-lintian -e CC -e GOARCH $archcmd -uc -us
 # i have tried every invocation possible on lintian overrides to get it to
 # ignore stuff in the /usr/src/$PROJECT directory and it. just. doesn't. work.
 # so ignore the result of lintian but at least print the results out which are
-# sometimes helpfule (had me enable pie on the binary for example)
+# sometimes helpful (had me enable pie on the binary for example)
 lintian --fail-on warning ../"${PROJECT}"*.deb || true
 
 # copy deb back to start directory so the upload-artifacts action picks it up
