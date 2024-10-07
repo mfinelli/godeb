@@ -27,7 +27,8 @@ for setting in project version; do
   fi
 done
 
-export PROJECT="$(yq e .project godeb.yaml)"
+PROJECT="$(yq e .project godeb.yaml)"
+export PROJECT
 
 sdir="$(pwd)"
 tdir="$(mktemp -d)"
