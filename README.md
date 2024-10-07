@@ -127,7 +127,7 @@ jobs:
       # install necessary tools
       - run: sudo apt-get update
       - run: sudo apt-get upgrade -y
-      - run: sudo apt-get install -y dh-make devscripts
+      - run: sudo apt-get install -y build-essential dh-make devscripts
 
       # install cross-compilation libraries (-buildmode=pie uses cgo)
       # https://dh1tw.de/2019/12/cross-compiling-golang-cgo-projects/
