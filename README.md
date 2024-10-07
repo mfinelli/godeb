@@ -46,6 +46,14 @@ dependencydirs: []
 codegen: []
   # - sqlc generate
 
+# OPTIONAL: any generated source files that should be included in full-source
+#           build (by default only third-party dependencies and files committed
+#           to the git tree are included)
+codegensource: []
+  # - db/db.go
+  # - db/models.go
+  # - db/*.sql.go
+
 # OPTIONAL: steps to run to build the project and any accompanying files
 build: []
   # - CC="" GOARCH="" make all
