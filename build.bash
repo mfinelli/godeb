@@ -173,7 +173,8 @@ fi
 # --no-tgz-check is helpful if we provide a debian package number (e.g., -1)
 # we don't do that but I'm keeping it around anyway
 # shellcheck disable=SC2086
-debuild --no-tgz-check --no-lintian -e CC -e GOARCH $archcmd -uc -us
+debuild --no-tgz-check --no-lintian -e CC -e GOARCH $archcmd --no-pre-clean \
+  --no-sign
 # i have tried every invocation possible on lintian overrides to get it to
 # ignore stuff in the /usr/src/$PROJECT directory and it. just. doesn't. work.
 # so ignore the result of lintian but at least print the results out which are
