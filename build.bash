@@ -135,7 +135,8 @@ if [[ $1 == --source ]]; then
     echo "{} /usr/src/$PROJECT" >> "$bdir/debian/$PROJECT.install"
 
   yq e '.codegensource[]' godeb.yaml | xargs -I'{}' bash -c "ls {}" | \
-    xargs -I'{}' echo "{} /usr/src/$PROJECT" >> "$bdir/debian/$PROJECT.install"
+    xargs -I'{}' bash -c "echo \"{} /usr/src/$PROJECT/\$(dirname \"{}\")\"" \
+    >> "$bdir/debian/$PROJECT.install"
 
   # export -f create_sourcefile_install
   # find node_modules -exec bash -c \
