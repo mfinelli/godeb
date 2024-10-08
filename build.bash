@@ -167,7 +167,7 @@ yq e '.buildinstalldirs[]' godeb.yaml | \
 
 # fresh download of dependencies for source package (they should be cached)
 if [[ $1 == --source ]]; then
-  yaml2cmd dependencies
+  yaml2cmd sourcedependencies
 fi
 
 if [[ -n $GOARCH ]]; then

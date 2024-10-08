@@ -36,6 +36,11 @@ dependencies: []
   # - npm ci
   # - go mod vendor
 
+# OPTIONAL: commands to run to fetch dependencies when doing a --source build
+sourcedependencies: []
+  # - npm ci --cpu arm64
+  # - go mod vendor
+
 # OPTIONAL: list of dependency directories to include when building with the
 #           --source option
 dependencydirs: []
