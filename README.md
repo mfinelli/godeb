@@ -82,6 +82,13 @@ buildinstalldirs: []
 # OPTIONAL: if specified the directories that we should use to find manpages
 manpages: []
   # - man
+
+# OPTIONAL: any additional steps to run after the build but before handing off
+#           to debuild
+cleanup: []
+  # - rm some/extra/file
+  # - touch some/other/file
+  # - chmod 0644 not/executable
 ```
 
 ### changelog

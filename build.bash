@@ -178,6 +178,9 @@ if [[ $1 == --source ]]; then
   yaml2cmdwithdirs sourcedependencies "$sdir" "$bdir"
 fi
 
+# do any cleanup if necessary
+yaml2cmd cleanup
+
 if [[ -n $GOARCH ]]; then
   archcmd="-a$GOARCH"
 fi
