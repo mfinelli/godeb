@@ -153,6 +153,7 @@ jobs:
         with:
           cc: aarch64-linux-gnu-gcc
           goarch: arm64
+          include-source: true   # (default is false)
           signing-key: ABCD1234
           update-changelog: true # if you do this then set localmods to include
                                  # debian/changelog in your godeb.yaml
