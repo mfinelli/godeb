@@ -49,10 +49,12 @@ function yaml2cmd() {
   yq e ".${key}[]" < godeb.yaml | xargs -I'{}' bash -c "set -x; {}"
 }
 
-function yaml2cmdwithbdir() {
+function yaml2cmdwithdirs() {
   local key="$1"
-  yq e ".${key}[]" < godeb.yaml | sed "s|\$bdir|$2|" | \
-    xargs -I'{}' bash -c "set -x; {}"
+  local sdir="$2"
+  local bdir="$3"
+  yq e ".${key}[]" < godeb.yaml | sed "s|\$bdir|$bdir|" | \
+    sed "s|\$sdir|$sdir|" | xargs -I'{}' bash -c "set -x; {}"
 }
 
 # do a fresh download of the dependencies
@@ -173,7 +175,7 @@ yq e '.buildinstalldirs[]' godeb.yaml | \
 
 # fresh download of dependencies for source package (they should be cached)
 if [[ $1 == --source ]]; then
-  yaml2cmdwithbdir sourcedependencies "$bdir"
+  yaml2cmdwithdirs sourcedependencies "$sdir" "$bdir"
 fi
 
 if [[ -n $GOARCH ]]; then
