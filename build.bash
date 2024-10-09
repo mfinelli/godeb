@@ -2,6 +2,11 @@
 
 set -e
 
+CYAN='\033[0;36m'
+LGREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+CLEAR='\033[0m'
+
 # builds a debian package
 # usage: ./build.bash [--source]
 
@@ -27,6 +32,8 @@ for setting in project version; do
   fi
 done
 
+echo -e "${YELLOW}Starting godeb build script${CLEAR}"
+
 PROJECT="$(yq e .project godeb.yaml)"
 export PROJECT
 
@@ -35,6 +42,10 @@ tdir="$(mktemp -d)"
 bdir="$tdir/build"
 mkdir -p "$bdir"
 
+echo -e "${CYAN}Starting directory: $sdir${CLEAR}"
+echo -e "${CYAN}Build directory: $bdir${CLEAR}"
+
+echo -e "${LGREEN}Exporting git tree to build directory${CLEAR}"
 # export a pristine working tree
 git archive HEAD | tar -x -C "$bdir"
 git submodule update --init --recursive
