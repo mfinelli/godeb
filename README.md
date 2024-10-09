@@ -61,6 +61,11 @@ codegensource: []
   # - db/models.go
   # - db/*.sql.go
 
+# OPTIONAL: the above can only handle individual files (or file globs) for
+#           directories use this
+codegensourcedirs: []
+  # - dist
+
 # OPTIONAL: steps to run to build the project and any accompanying files
 build: []
   # - CC="" GOARCH="" make all
