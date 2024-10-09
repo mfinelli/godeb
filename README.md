@@ -37,9 +37,11 @@ dependencies: []
   # - go mod vendor
 
 # OPTIONAL: commands to run to fetch dependencies when doing a --source build
+#           note in these commands both $sdir and $bdir are available
 sourcedependencies: []
   # - npm ci --cpu arm64
   # - go mod vendor
+  # - cp -r "$sdir/vendor" "$bdir"
 
 # OPTIONAL: list of dependency directories to include when building with the
 #           --source option
