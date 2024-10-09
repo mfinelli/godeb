@@ -139,7 +139,7 @@ if [[ $1 == --source ]]; then
     >> "$bdir/debian/$PROJECT.install"
 
   yq e '.codegensourcedirs[]' godeb.yaml | xargs -I'{}' bash -c \
-    "echo \"{} /usr/src/$PROJECT/\$(dirname \"{}\")\"" >>
+    "echo \"{} /usr/src/$PROJECT/\$(dirname \"{}\")\"" >> \
     "$bdir/debian/$PROJECT.install"
 
   # export -f create_sourcefile_install
