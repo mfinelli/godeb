@@ -2,6 +2,9 @@
 name: godeb-builder
 description: simple debian packaging for go service
 author: Mario Finelli
+branding:
+  icon: archive
+  color: blue
 inputs:
   cc:
     default: ""
