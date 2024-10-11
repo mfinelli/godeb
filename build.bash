@@ -114,6 +114,7 @@ function create_sourcefile_install() {
 # we can't do something simple like just list the build directory in the
 # install file because it will maintain the top-level "build" directory which
 # we want to strip
+# shellcheck disable=SC2317
 function create_build_install() {
   local bp d f p s bdir
   bdir="$4"
@@ -185,6 +186,7 @@ yq e '.manpages[]' < godeb.yaml | \
   xargs -t -I'{}' find "{}" -type f | \
   sort -nr >> "debian/$PROJECT.manpages"
 
+# shellcheck disable=SC2317
 function do_find_for_build_install() {
   local bdir="$3"
   find "$1" -type f -exec bash -c \
