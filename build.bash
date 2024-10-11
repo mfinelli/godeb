@@ -68,7 +68,7 @@ function yaml2cmdwithdirs() {
   local key="$1"
   local sdir="$2"
   local bdir="$3"
-  yq e ".${key}[]" < godeb.yaml | sed "s|\$bdir|$bdir|" | \
+  yq e ".${key}[]" < godeb.yaml | sed "s|\$bdir|$bdir|" |
     sed "s|\$sdir|$sdir|" | xargs -I'{}' bash -c "set -ex; {}"
 }
 
@@ -154,13 +154,12 @@ if [[ $1 == --source ]]; then
     yq e '.dependencydirs[]' < godeb.yaml | xargs -t -I'{}' \
       echo "{} /usr/src/$PROJECT"
 
-    yq e '.codegensource[]' godeb.yaml | xargs -I'{}' bash -c "ls {}" | \
+    yq e '.codegensource[]' godeb.yaml | xargs -I'{}' bash -c "ls {}" |
       xargs -t -I'{}' bash -c "echo \"{} /usr/src/$PROJECT/\$(dirname \"{}\")\""
 
     yq e '.codegensourcedirs[]' godeb.yaml | xargs -t -I'{}' bash -c \
       "echo \"{} /usr/src/$PROJECT/\$(dirname \"{}\")\""
   } >> "$bdir/debian/$PROJECT.install"
-
 
   # export -f create_sourcefile_install
   # find node_modules -exec bash -c \
@@ -176,14 +175,14 @@ echo -e "${LGREEN}Copying files into the packaging directory post-build${CLEAR}"
 # copy the resulting files into the packing directory
 yq e '.copyfiles[]' < godeb.yaml | xargs -t -I'{}' \
   bash -c "cp -r --parents {} \"$bdir\""
-yq e '.buildinstalldirs[]' godeb.yaml | awk -F: '{printf("%s%c", $1, 0)}' | \
+yq e '.buildinstalldirs[]' godeb.yaml | awk -F: '{printf("%s%c", $1, 0)}' |
   xargs -0 -t -I'{}' cp -r '{}' "$bdir"
 yq e '.manpages[]' < godeb.yaml | xargs -t -I'{}' cp -r '{}' "$bdir"
 
 cd "$bdir"
 
-yq e '.manpages[]' < godeb.yaml | \
-  xargs -t -I'{}' find "{}" -type f | \
+yq e '.manpages[]' < godeb.yaml |
+  xargs -t -I'{}' find "{}" -type f |
   sort -nr >> "debian/$PROJECT.manpages"
 
 # shellcheck disable=SC2317
@@ -196,8 +195,8 @@ function do_find_for_build_install() {
 export -f do_find_for_build_install
 
 # shellcheck disable=SC2016
-yq e '.buildinstalldirs[]' godeb.yaml | \
-  awk -F: '{printf("%s%c%s%c", $1, 0, $2, 0)}' | \
+yq e '.buildinstalldirs[]' godeb.yaml |
+  awk -F: '{printf("%s%c%s%c", $1, 0, $2, 0)}' |
   xargs -t -0 -n 2 bash -c \
     "do_find_for_build_install \"\$1\" \"\$2\" \"$bdir\"" argv0
 
