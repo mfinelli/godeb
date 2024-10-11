@@ -149,16 +149,17 @@ if [[ $1 == --source ]]; then
     create_sourcefile_install "$f" "$bdir"
   done
 
-  yq e '.dependencydirs[]' < godeb.yaml | xargs -t -I'{}' \
-    echo "{} /usr/src/$PROJECT" >> "$bdir/debian/$PROJECT.install"
+  {
+    yq e '.dependencydirs[]' < godeb.yaml | xargs -t -I'{}' \
+      echo "{} /usr/src/$PROJECT"
 
-  yq e '.codegensource[]' godeb.yaml | xargs -I'{}' bash -c "ls {}" | \
-    xargs -t -I'{}' bash -c "echo \"{} /usr/src/$PROJECT/\$(dirname \"{}\")\"" \
-    >> "$bdir/debian/$PROJECT.install"
+    yq e '.codegensource[]' godeb.yaml | xargs -I'{}' bash -c "ls {}" | \
+      xargs -t -I'{}' bash -c "echo \"{} /usr/src/$PROJECT/\$(dirname \"{}\")\""
 
-  yq e '.codegensourcedirs[]' godeb.yaml | xargs -t -I'{}' bash -c \
-    "echo \"{} /usr/src/$PROJECT/\$(dirname \"{}\")\"" >> \
-    "$bdir/debian/$PROJECT.install"
+    yq e '.codegensourcedirs[]' godeb.yaml | xargs -t -I'{}' bash -c \
+      "echo \"{} /usr/src/$PROJECT/\$(dirname \"{}\")\""
+  } >> "$bdir/debian/$PROJECT.install"
+
 
   # export -f create_sourcefile_install
   # find node_modules -exec bash -c \
